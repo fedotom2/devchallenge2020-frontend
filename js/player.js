@@ -7,7 +7,7 @@ const Player = function (radius) {
   this.y = this.radius;
   this.h = this.y;
   this.mass = 5;
-  this.velocity = 10;
+  this.velocity = 40;
   this.angle = (45 * Math.PI) / 180;
   this.isFix = false;
   this.isStart = false;
@@ -39,6 +39,9 @@ Player.prototype.update = function () {
       this.x += this.velocity * Math.cos(this.angle);
       this.y = this.h - (this.x / Math.cos(this.angle)) * Math.sin(this.angle) + (Math.pow(this.x, 2) / (2 * Math.pow(this.velocity * Math.cos(this.angle), 2)));
     }
+
+    if (this.y + this.radius > this.parent.height)
+      this.y = this.parent.height - this.radius;
   }
 };
 

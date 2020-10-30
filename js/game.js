@@ -11,6 +11,8 @@ const Game = function (canvas) {
   this.objects = [];
   this.mousePos = { x: 0, y: 0 };
   this.isClick = false;
+  this.map = null;
+  this.camera = null;
 };
 
 Game.prototype.add = function (object) {
@@ -20,21 +22,35 @@ Game.prototype.add = function (object) {
 
 Game.prototype.draw = function () {
   this.ctx.clearRect(0, 0, this.width, this.height);
-  for (let object of this.objects)
-    object.draw();
+  if (this.map)
+    this.map.draw(this.camera.xView, this.camera.yView);
+   for (let object of this.objects)
+    if (object.draw)
+      object.draw();
 };
 
 Game.prototype.update = function () {
   for (let object of this.objects)
-    object.update();
+    if (object.update)
+      object.update();
+
+  if (this.camera)
+    this.camera.update();
 
   this.isClick = false;
 };
 
-Game.prototype.start = function () {
+Game.prototype.loop = function () {
   this.draw();
   this.update();
-  requestAnimationFrame(this.start.bind(this));
+  requestAnimationFrame(this.loop.bind(this));
+};
+
+Game.prototype.start = function () {
+  window.addEventListener('mousemove', (e) => game.emit('mousemove', e));
+  window.addEventListener('click', (e) => game.click(e));
+  window.addEventListener('resize', (e) => game.resize(e));
+  this.loop();
 };
 
 Game.prototype.setMousePos = function (e) {
@@ -52,6 +68,16 @@ Game.prototype.resize = function (e) {
   this.height = window.innerHeight;
   this.canvas.width = this.width;
   this.canvas.height = this.height;
+};
+
+Game.prototype.setMap = function (map) {
+  map.parent = this;
+  this.map = map;
+};
+
+Game.prototype.setCamera = function (camera) {
+  camera.parent = this;
+  this.camera = camera;
 };
 
 Object.setPrototypeOf(Game.prototype, EventEmitter.prototype);
