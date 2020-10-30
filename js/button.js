@@ -41,6 +41,8 @@ Button.prototype.update = function () {
 
   if (this.parent.mousePos.x > this.x && this.parent.mousePos.x < this.x + this.width
     && this.parent.mousePos.y > this.y && this.parent.mousePos.y < this.y + this.height) {
+    this.emit('mousemove');
+
     if (this.parent.isClick) {
       this.parent.isClick = false;
       this.emit('click');

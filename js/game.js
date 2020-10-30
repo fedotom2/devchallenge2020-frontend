@@ -47,4 +47,11 @@ Game.prototype.click = function (e) {
   this.isClick = true;
 };
 
+Game.prototype.resize = function (e) {
+  this.width = window.innerWidth;
+  this.height = window.innerHeight;
+  this.canvas.width = this.width;
+  this.canvas.height = this.height;
+};
+
 Object.setPrototypeOf(Game.prototype, EventEmitter.prototype);
