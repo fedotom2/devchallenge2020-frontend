@@ -17,7 +17,7 @@ const Player = function (radius) {
 Player.prototype.draw = function () {
   this.parent.ctx.fillStyle = '#000';
   this.parent.ctx.beginPath();
-  this.parent.ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI);
+  this.parent.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
   this.parent.ctx.closePath();
   this.parent.ctx.fill();
 };
