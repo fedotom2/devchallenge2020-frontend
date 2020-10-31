@@ -21,7 +21,11 @@ Game.prototype.add = function (object) {
 };
 
 Game.prototype.draw = function () {
-  this.ctx.clearRect(0, 0, this.width, this.height);
+  // this.ctx.clearRect(0, 0, this.width, this.height);
+  this.ctx.save();
+  this.ctx.fillStyle = '#69df89';
+  this.ctx.fillRect(0, 0, this.width, this.height);
+  this.ctx.restore();
   if (this.map)
     this.map.draw(this.camera.xView, this.camera.yView);
    for (let object of this.objects)

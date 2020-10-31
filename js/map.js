@@ -10,7 +10,7 @@ function Map(width, height) {
 }
 
 // creates a prodedural generated map (you can use an image instead)
-Map.prototype.generate = function(src) {
+Map.prototype.generate = function(background, ground) {
   let ctx = document.createElement('canvas').getContext('2d');
   ctx.canvas.width = this.width;
   ctx.canvas.height = this.height;
@@ -18,25 +18,28 @@ Map.prototype.generate = function(src) {
 
   ctx.save();
   const image = new Image();
-  image.src = src;
+  image.src = background;
   image.addEventListener('load', function (e) {
-    const ptrn = ctx.createPattern(image, 'repeat');
-    ctx.fillStyle = ptrn;
-    for (let x = 0, i = 0; i < 10; x += image.width, i++) {
-      ctx.beginPath();
-      ctx.rect(x, 0, image.width, image.height);
-      ctx.fill();
-      ctx.closePath();
-    }
-
+    ctx.fillStyle = ctx.createPattern(image, 'repeat');
+    ctx.fillRect(0, 0, image.width * 10, image.height);
     ctx.restore();
 
-    // store the generate map as this image texture
-    that.image = new Image();
-    that.image.src = ctx.canvas.toDataURL('image/png');
+    ctx.save();
+    const image1 = new Image();
+    image1.src = ground;
+    image1.addEventListener('load', (e) => {
+      ctx.fillStyle = ctx.createPattern(image1, 'repeat-x');
+      ctx.translate(0,that.parent.height - image1.height);
+      ctx.fillRect(0, 0, image.width * 10, image1.height);
+      ctx.restore();
+      // store the generate map as this image texture
+      that.image = new Image();
+      that.image.src = ctx.canvas.toDataURL('image/png');
 
-    // Clear context
-    ctx = null;
+      // Clear context
+      ctx = null;
+    }, false);
+
   }, false);
 
 };
