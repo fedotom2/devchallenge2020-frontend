@@ -1,16 +1,16 @@
 'use strict';
 
+const styles = {
+  green: '#4caf50',
+  blue: '#008CBA',
+  red: '#f44336',
+  grey: '#e7e7e7',
+  black: '#555555',
+  yellow: '#f4c536'
+};
+
 const Button = function (x, y, width, height, text, color, isFill, handler) {
   EventEmitter.call(this);
-
-  const styles = {
-    green: '#4caf50',
-    blue: '#008CBA',
-    red: '#f44336',
-    grey: '#e7e7e7',
-    black: '#555555'
-  };
-
   this.parent = null;
   this.x = x;
   this.y = y;
@@ -88,6 +88,12 @@ Button.prototype.update = function () {
         this.textColor.b -= 10;
     }
   }
+};
+
+Button.prototype.setColor = function (color) {
+  this.color = color;
+  this.style = styles[this.color];
+  this.textColor = hexToRgb(this.style);
 };
 
 Object.setPrototypeOf(Button.prototype, EventEmitter.prototype);

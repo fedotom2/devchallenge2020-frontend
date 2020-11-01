@@ -11,6 +11,7 @@ const Game = function (canvas) {
   this.objects = [];
   this.mousePos = { x: 0, y: 0 };
   this.isClick = false;
+  this.isMouseDown = false;
   this.map = null;
   this.camera = null;
 };
@@ -51,9 +52,13 @@ Game.prototype.loop = function () {
 };
 
 Game.prototype.start = function () {
-  window.addEventListener('mousemove', (e) => game.emit('mousemove', e));
-  window.addEventListener('click', (e) => game.click(e));
-  window.addEventListener('resize', (e) => game.resize(e));
+  const that = this;
+  window.addEventListener('mousemove', (e) => that.mousemove(e));
+  window.addEventListener('click', (e) => that.click(e));
+  window.addEventListener('resize', (e) => that.resize(e));
+  window.addEventListener('mousedown', (e) => that.mousedown(e));
+  window.addEventListener('mouseup', (e) => that.mouseup(e));
+
   this.loop();
 };
 
@@ -61,6 +66,11 @@ Game.prototype.setMousePos = function (e) {
   const rect = this.canvas.getBoundingClientRect();
   this.mousePos.x = (e.clientX - rect.left) / (rect.right - rect.left) * this.width;
   this.mousePos.y = (e.clientY - rect.top) / (rect.bottom - rect.top) * this.height;
+};
+
+Game.prototype.mousemove = function (e) {
+  this.canvas.style.cursor = 'auto';
+  this.setMousePos(e);
 };
 
 Game.prototype.click = function (e) {
@@ -72,6 +82,14 @@ Game.prototype.resize = function (e) {
   this.height = window.innerHeight;
   this.canvas.width = this.width;
   this.canvas.height = this.height;
+};
+
+Game.prototype.mousedown = function (e) {
+  this.isMouseDown = true;
+};
+
+Game.prototype.mouseup = function (e) {
+  this.isMouseDown = false;
 };
 
 Game.prototype.setMap = function (map) {
