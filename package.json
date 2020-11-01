@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "start": "lite-server"
   },
@@ -11,7 +11,17 @@
     "type": "git",
     "url": "git+https://github.com/fedotom2/devchallenge2020-frontend.git"
   },
-  "author": "",
+  "keywords": [
+    "javascript",
+    "js",
+    "html",
+    "html5",
+    "css",
+    "css3",
+    "frontend",
+    "canvas"
+  ],
+  "author": "Max Fedotov <fedotom2@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fedotom2/devchallenge2020-frontend/issues"
